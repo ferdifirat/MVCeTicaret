@@ -1,0 +1,68 @@
+﻿@model IEnumerable<MVCeTicaret.Models.Wishlist>
+@{
+    ViewBag.Title = "WishL" +
+                "ist";
+}
+
+<h2>WishList</h2>
+
+
+<table class="table table-bordered" style="text-align:center;">
+    <thead>
+        <tr>
+            <th>Listeden Çıkar</th>
+            <th>Ürün Görseli</th>
+            <th>Ürün Adı</th>
+            <th>Ürün Fiyatı</th>
+            <th>Stok Miktarı</th>
+            <th>Sepete Ekle</th>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @* TODO: Lİnk eklenecek *@
+                <a href="@Url.Action("RemoveFromWishlist","Shopping", new { id = item.WishlistID })" style="font-size:20pt;">
+                    <span class="glyphicon glyphicon-trash" style="color:red;"></span>
+                </a>
+            </td>
+            <td>
+                <img src="@Url.Content(item.Product.ImageUrl)" alt="@Url.Content(item.Product.AltText)" class="img-thumbnail" style="height:150px;" />
+            </td>
+            <td>
+                @item.Product.Name
+            </td>
+            <td>
+                @string.Format("{0:C2}", item.Product.UnitPrice)
+            </td>
+            <td>
+                 @item.Product.UnitsInStock @item.Product.QuantityPerUnit
+            </td>
+            <td>
+                @{
+                    if (item.Product.UnitsInStock == 0)
+                    {
+                        <a disabled style="font-size:20pt;">
+                            <span class="glyphicon glyphicon-shopping-cart" style="color:lightgray"></span>
+                        </a>
+                    }
+                    else
+                    {
+
+                        <a href="@Url.Action("AddToCartFromWishlist","Shopping", new { id = item.WishlistID })" style="font-size:20pt;">
+                            <span class="glyphicon glyphicon-shopping-cart" style="color:forestgreen"></span>
+                        </a>
+                    }
+                }
+            </td>
+        </tr>
+            }
+        }
+
+
+    </tbody>
+
+
+</table>
